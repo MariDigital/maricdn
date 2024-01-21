@@ -3,7 +3,7 @@
  * Plugin Name: MariCDN by MariHost
  * Plugin URI: https://maricdn.com/
  * Description: Boost your website speed with MariCDN Content Delivery Network (CDN). You can easily enable MariCDN with a click of a button.
- * Version: 0.7.2
+ * Version: 0.7.3
  * Author: MariHost
  * Author URI: https://marihost.com/
  * License: GPLv2 or later
@@ -35,12 +35,11 @@ define('MARICDN_PULLZONEDOMAIN', "b-cdn.net");
 define('MARICDN_DEFAULT_DIRECTORIES', "wp-content,wp-includes");
 define('MARICDN_DEFAULT_EXCLUDED', ".php");
 
-
 // Make sure jQuery is included
-function theme_scripts() {
+function maricdn_theme_scripts() {
   wp_enqueue_script('jquery');
 }
-add_action('admin_enqueue_scripts', 'theme_scripts');
+add_action('admin_enqueue_scripts', 'maricdn_theme_scripts');
 
 // Load everything
 spl_autoload_register('MariCDNLoad');
@@ -54,10 +53,10 @@ function MariCDNLoad($class)
 add_action("admin_menu", array("MariCDNSettings", "initialize"));
 
 
-add_action("template_redirect", "doRewrite");
+add_action("template_redirect", "maricdn_doRewrite");
 add_action("wp_head", "maricdn_dnsPrefetch", 0);
 
-function doRewrite() 
+function maricdn_doRewrite() 
 {
 	$options = MariCDN::getOptions();
 	if(strlen(trim($options["cdn_domain_name"])) > 0)
@@ -69,11 +68,11 @@ function doRewrite()
 
 function maricdn_dnsPrefetch() 
 {
-	$options = MariCDN::getOptions();
-	if(strlen(trim($options["cdn_domain_name"])) > 0)
-	{
-		echo "<link rel='dns-prefetch' href='//{$options["cdn_domain_name"]}' />";
-	}
+    $options = MariCDN::getOptions();
+    
+    if (strlen(trim($options["cdn_domain_name"])) > 0) {
+        echo '<link rel="dns-prefetch" href="//' . esc_url($options["cdn_domain_name"]) . '" />';
+    }
 }
 
 ?>

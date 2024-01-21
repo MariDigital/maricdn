@@ -3,7 +3,7 @@ Contributors: marihost
 Tags: cdn, content delivery network, performance, bandwidth
 Requires at least: 5.0
 Tested up to: 6.4.2
-Stable tag: 0.7.2
+Stable tag: 0.7.3
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -47,9 +47,13 @@ Simply deactivate and delete the plugin.
 
 == Changelog ==
 
+= 0.7.3 (2024-01-16) =
+
+* Fixed: Bug fixed.
+
 = 0.7.2 (2024-01-15) =
 
-* Initial public release
+* Fixed: Bug fixed.
 
 = 0.7.1 (2023-04-10) =
 

@@ -124,34 +124,32 @@ class MariCDNSettings
 
 		?>
 		<div class="tead" style="width: 550px; padding-top: 20px; margin-left: auto; margin-right: auto; position: relative;">
-			<a href="https://maricdn.com" target="_blank"><img width="250" src="<?php echo plugins_url('maricdn-logo.svg', __FILE__); ?>?v=2" alt="MariCDN"></a>
+			<a href="https://maricdn.com" target="_blank"><img width="250" src="<?php echo esc_url(plugins_url('maricdn-logo.svg', __FILE__)); ?>?v=2" alt="MariCDN"></a>
 			<?php
 			if (strlen(trim($options["cdn_domain_name"])) == 0) {
-				echo '<h2>MariCDN by MariHost. Enable MariCDN Content Delivery Network</h2>';
+				echo '<h2>' . esc_html__('MariCDN by MariHost. Enable MariCDN Content Delivery Network', 'your-text-domain') . '</h2>';
 			} else {
-				echo '<h2>MariCDN by MariHost. Configure MariCDN Content Delivery Network</h2>';
+				echo '<h2>' . esc_html__('MariCDN by MariHost. Configure MariCDN Content Delivery Network', 'your-text-domain') . '</h2>';
 			}
 			?>
 
 			<form id="maricdn_options_form" method="post" action="options.php">
 				<?php settings_fields('maricdn') ?>
 
-				<input type="hidden" name="maricdn[advanced_edit]" id="maricdn_advanced_edit" value="<?php echo $options['advanced_edit']; ?>" />
-				<input type="hidden" name="maricdn[disable_admin]" id="maricdn_disable_admin" value="<?php echo $options['disable_admin']; ?>" />
+				<input type="hidden" name="maricdn[advanced_edit]" id="maricdn_advanced_edit" value="<?php echo esc_html($options['advanced_edit']); ?>" />
+				<input type="hidden" name="maricdn[disable_admin]" id="maricdn_disable_admin" value="<?php echo esc_html($options['disable_admin']); ?>" />
 
 				<!-- Simple settings. To remove -->
-				<div id="maricdn-simple-settings" <?php if ($options["advanced_edit"]) {
-														echo 'style="display: none;"';
-													} ?>>
-					<p>To set up, enter the name of your Pull Zone that was given to you. If you haven't done that, you can <a href="https://maricdn.com/?originUrl=<?php echo urlencode(get_option('home')); ?>" target="_blank">create a new account now</a>. It should only take a minute. After that, just click on the Enable MariCDN button and enjoy a faster website.</p>
+				<div id="maricdn-simple-settings" <?php if ($options["advanced_edit"]) { echo 'style="display: none;"'; } ?>>
+					<p>To set up, enter the name of your Pull Zone that was given to you. If you haven't done that, you can <a href="<?php echo esc_url('https://maricdn.com/?originUrl=' . urlencode(get_option('home'))); ?>" target="_blank">create a new account now</a>. It should only take a minute. After that, just click on the Enable MariCDN button and enjoy a faster website.</p>
 					<table class="form-table">
 						<tr valign="top">
 							<th scope="row">
 								Pull Zone Name:
 							</th>
 							<td>
-								<input type="text" maxlength="40" placeholder="mypullzone" name="maricdn[pull_zone]" id="maricdn_pull_zone" value="<?php echo $options['pull_zone']; ?>" size="64" class="regular-text code" />
-								<p class="description">The name of the pull zone that you have created for this site. <strong>Do not include the .<?php echo MARICDN_PULLZONEDOMAIN; ?></strong>. Leave empty to disable CDN integration.</p>
+								<input type="text" maxlength="40" placeholder="mypullzone" name="maricdn[pull_zone]" id="maricdn_pull_zone" value="<?php echo esc_attr($options['pull_zone']); ?>" size="64" class="regular-text code" />
+								<p class="description">The name of the pull zone that you have created for this site. <strong>Do not include the .<?php echo esc_html(MARICDN_PULLZONEDOMAIN); ?></strong>. Leave empty to disable CDN integration.</p>
 							</td>
 						</tr>
 					</table>
@@ -161,15 +159,13 @@ class MariCDNSettings
 				<!-- Advanced settings -->
 				<br><p>If you need to signup, please <a href="https://maricdn.com/" target="_blank">visit us here</a></p>
 
-				<table id="maricdn-advanced-settings" class="form-table" <?php if (!$options["advanced_edit"]) {
-																			echo 'style="display: none;"';
-																		} ?>>
+				<table id="maricdn-advanced-settings" class="form-table" <?php if (!$options["advanced_edit"]) { echo 'style="display: none;"'; } ?>>
 					<tr valign="top">
 						<th scope="row">
 							CDN Domain Name:
 						</th>
 						<td>
-							<input type="text" name="maricdn[cdn_domain_name]" placeholder="mysite.maricdn.com" id="maricdn_cdn_domain_name" value="<?php echo $options['cdn_domain_name']; ?>" size="64" class="regular-text code" />
+							<input type="text" name="maricdn[cdn_domain_name]" placeholder="mysite.maricdn.com" id="maricdn_cdn_domain_name" value="<?php echo esc_html($options['cdn_domain_name']); ?>" size="64" class="regular-text code" />
 							<p class="description">The CDN domain that you you wish to use to rewrite your links to. This must be a fully qualified domain name and not the name of your pull zone. Leave empty to disable CDN integration.</p>
 						</td>
 					</tr>
@@ -179,8 +175,8 @@ class MariCDNSettings
 							Site URL:
 						</th>
 						<td>
-							<input type="text" name="maricdn[site_url]" id="maricdn_site_url" value="<?php echo $options['site_url']; ?>" size="64" class="regular-text code" />
-							<p class="description">The public URL where your website is accessible. Default for your configuration <code><?php echo get_option('home'); ?></code>.
+							<input type="text" name="maricdn[site_url]" id="maricdn_site_url" value="<?php echo esc_html($options['site_url']); ?>" size="64" class="regular-text code" />
+							<p class="description">The public URL where your website is accessible. Default for your configuration <code><?php echo esc_url(get_option('home')); ?></code>.
 						</td>
 					</tr>
 
@@ -189,8 +185,8 @@ class MariCDNSettings
 							Excluded:
 						</th>
 						<td>
-							<input type="text" name="maricdn[excluded]" id="maricdn_excluded" value="<?php echo $options['excluded']; ?>" size="64" class="regular-text code" />
-							<p class="description">The links containing the listed phrases will be excluded from the CDN. Enter a <code>,</code> separated list without spaces.<br/><br/>Default value: <code><?php echo MARICDN_DEFAULT_EXCLUDED; ?></code></p>
+							<input type="text" name="maricdn[excluded]" id="maricdn_excluded" value="<?php echo esc_html($options['excluded']); ?>" size="64" class="regular-text code" />
+							<p class="description">The links containing the listed phrases will be excluded from the CDN. Enter a <code>,</code> separated list without spaces.<br/><br/>Default value: <code><?php echo esc_html(MARICDN_DEFAULT_EXCLUDED); ?></code></p>
 						</td>
 					</tr>
 
@@ -199,8 +195,8 @@ class MariCDNSettings
 							Included Directories:
 						</th>
 						<td>
-							<input type="text" name="maricdn[directories]" id="maricdn_directories" value="<?php echo $options['directories']; ?>" size="64" class="regular-text code" />
-							<p class="description">Only the files linking inside of this directory will be pointed to their CDN url. Enter a <code>,</code> separated list without spaces.<br/><br/>Default value: <code><?php echo MARICDN_DEFAULT_DIRECTORIES; ?></code></p>
+							<input type="text" name="maricdn[directories]" id="maricdn_directories" value="<?php echo esc_html($options['directories']); ?>" size="64" class="regular-text code" />
+							<p class="description">Only the files linking inside of this directory will be pointed to their CDN url. Enter a <code>,</code> separated list without spaces.<br/><br/>Default value: <code><?php echo esc_html(MARICDN_DEFAULT_DIRECTORIES); ?></code></p>
 						</td>
 					</tr>
 
@@ -209,14 +205,14 @@ class MariCDNSettings
 							Disable CDN for admin user:
 						</th>
 						<td>
-							<p class="description"><input type="checkbox" id="maricdn_disable_admin_checkbox" class="regular-text code" <?php echo ($options['disable_admin'] == true ? "checked" : ""); ?> /> If checked, MariCDN.com will be disabled while signed in as an admin user.</p>
+							<p class="description"><input type="checkbox" id="maricdn_disable_admin_checkbox" class="regular-text code" <?php echo esc_attr($options['disable_admin'] == true ? "checked" : ""); ?> /> If checked, MariCDN.com will be disabled while signed in as an admin user.</p>
 						</td>
 					</tr>
 				</table>
 
 				<div>
 					<p class="submit">
-						<input type="submit" name="maricdn-save-button" id="maricdn-save-button" class="button submit" value="<?php echo (strlen(trim($options['cdn_domain_name'])) == 0 ? 'Enable MariCDN' : 'Update CDN Settings'); ?>">
+						<input type="submit" name="maricdn-save-button" id="maricdn-save-button" class="button submit" value="<?php echo esc_html(strlen(trim($options['cdn_domain_name'])) == 0 ? 'Enable MariCDN' : 'Update CDN Settings'); ?>">
 						&nbsp;
 						<!--
 						<input type="button" id="maricdn-clear-cache-button" class="button submit" value="Clear Cache">
@@ -225,7 +221,7 @@ class MariCDNSettings
 				</div>
 
 				<!--
-				<a id="advanced-switch-url" href="#"><?php echo ($options["advanced_edit"]  ? "Switch To Simple View" : "Switch To Advanced View"); ?></a>
+				<a id="advanced-switch-url" href="#"><?php echo esc_html($options["advanced_edit"] ? "Switch To Simple View" : "Switch To Advanced View"); ?></a>
 				-->
 				<script>
 					jQuery("#maricdn-clear-cache-button").click(function (e) {
@@ -299,7 +295,7 @@ class MariCDNSettings
 					});
 
 					function maricdn_getApiKey() {
-						return '<?php echo htmlspecialchars($options["api_key"]); ?>'.trim();
+						return '<?php echo esc_attr($options["api_key"]); ?>'.trim();
 					}
 
 					function maricdn_isAdvancedSettingsVisible() {
@@ -348,7 +344,7 @@ class MariCDNSettings
 					jQuery("#maricdn_pull_zone").change(function (event) {
 						var name = jQuery("#maricdn_pull_zone").val();
 						if (name.length > 0) {
-							var hostname = name + ".<?php echo MARICDN_PULLZONEDOMAIN; ?>";
+							var hostname = name + ".<?php echo esc_html(MARICDN_PULLZONEDOMAIN); ?>";
 							jQuery("#maricdn_cdn_domain_name").val(hostname);
 						} else {
 							jQuery("#maricdn_cdn_domain_name").val("");
@@ -359,7 +355,7 @@ class MariCDNSettings
 
 			<div id="maricdn_popupBackground" style="display: none; position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; background-color: #f1f1f1; opacity: 0.93;"></div>
 			<div id="maricdn_popupBox" style="display: none; position: absolute; top: 0px; left: 0px; height: 100%; width: 100%;">
-				<img style="margin-left: auto; margin-right: auto; display: block; margin-top: 110px;" src="<?php echo plugins_url('loading-maricdn.png', __FILE__); ?>"></img>
+				<img style="margin-left: auto; margin-right: auto; display: block; margin-top: 110px;" src="<?php echo esc_url(plugins_url('loading-maricdn.png', __FILE__)); ?>"></img>
 				<h3 id="maricdn_popupMessage" style="text-align: center;"></h4>
 			</div>
 		</div><?php
@@ -371,13 +367,9 @@ class MariCDNSettings
 
 		?>
 		<div class="tead" style="width: 550px; padding-top: 20px; margin-left: auto; margin-right: auto; position: relative;">
-			<a href="https://maricdn.com" target="_blank"><img width="250" src="<?php echo plugins_url('maricdn-logo.svg', __FILE__); ?>?v=2"></img></a>
+			<a href="https://maricdn.com" target="_blank"><img width="250" src="<?php echo esc_url(plugins_url('maricdn-logo.svg', __FILE__)); ?>?v=2"></img></a>
 			<?php
-			if (strlen(trim($options["cdn_domain_name"])) == 0) {
-				echo '<h2>MariCDN Cache Control</h2>';
-			} else {
-				echo '<h2>MariCDN Cache Control</h2>';
-			}
+				echo '<h2>' . esc_html('MariCDN Cache Control') . '</h2>';
 			?>
 
 			<form id="maricdn_purge_form" method="post" action="https://automate.mariwp.com/webhook/cfd93e3d-b1b5-4fb9-b122-f34434000328" target="framesamepage">
@@ -392,7 +384,7 @@ class MariCDNSettings
 								Zone ID:
 							</th>
 							<td>
-								<input type="text" maxlength="40" placeholder="mypullzone" name="zoneid" id="zoneid" value="<?php echo $options['cdn_domain_name']; ?>" size="64" class="regular-text code" />
+								<input type="text" maxlength="40" placeholder="mypullzone" name="zoneid" id="zoneid" value="<?php echo esc_html($options['cdn_domain_name']); ?>" size="64" class="regular-text code" />
 							</td>
 						</tr>
 					</table>
